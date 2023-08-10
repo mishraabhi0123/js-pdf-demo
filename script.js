@@ -1,5 +1,5 @@
 
-function handlePdfGeneration(config, data) {
+function handlePdfGeneration(config, dataJson) {
   const columns = config.filter(c => c.visible == true).map(c => ({id: c.id, title: c.title }))
   const data = dataJson.map(d => {
     const trimmed_data = []
@@ -24,10 +24,98 @@ function handlePdfGeneration(config, data) {
 
 document.querySelector("button").addEventListener("click", () => {
   const config = [
-    {}
+    {
+      "id": "column1",
+      "title": "Name",
+      "visible": true
+    },
+    {
+      "id": "column2",
+      "title": "Email",
+      "visible": true
+    },
+    {
+      "id": "column3",
+      "title": "Password",
+      "visible": true
+    },
+    {
+      "id": "column4",
+      "title": "Place of birth",
+      "visible": true
+    },
+    {
+      "id": "column5",
+      "title": "Address",
+      "visible": true
+    }
   ]
 
   const data = [
-    {}
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    }
   ]
+
+  handlePdfGeneration(config, data);
 })
