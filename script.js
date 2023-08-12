@@ -1,3 +1,22 @@
+function createPage(doc, data, columns, pageNumber, totalPages, columnStyles) {
+  doc.setFontSize(12); // Reset font size for page number
+  doc.text(`${pageNumber} / ${totalPages}`, 185, 285); // Adjust position as needed
+  
+  doc.autoTable({
+    head: [columns],
+    columnStyles,
+    startY: pageNumber == 1 ? 30 : 20,
+    body: data,
+    theme: 'grid',
+    tableWidth: 'auto',
+  });
+
+  if (pageNumber != totalPages) {
+    doc.addPage();
+  }
+}
+
+
 function handlePdfGeneration(config, dataJson) {
   const columns = config.tableConfig.filter(c => c.visible == true).map(c => ({
     id: c.id, 
@@ -19,7 +38,6 @@ function handlePdfGeneration(config, dataJson) {
     return trimmed_data;
   })
 
-  const rowsCount = data.length;
   const doc = new jspdf.jsPDF();
   
   doc.setFontSize(16);
@@ -42,23 +60,29 @@ function handlePdfGeneration(config, dataJson) {
   const sx = (pageWidth - subtitleWidth) / 2;
   doc.text(subtitle, sx, 22);
 
-  doc.autoTable({
-    head: [columns],
-    body: data.slice(1),
-    columnStyles,
-    startY: 30,
-    theme: 'grid',
-    tableWidth: 'auto',
-  });
+  const totalRows = data.length;
+  const pageSize = config.rowsPerPage;
+  const totalPages = Math.ceil(totalRows / pageSize);
+  const remainderRows = totalPages % pageSize
 
-  doc.save('json-to-pdf.pdf');
+  for (let page = 0; page < totalPages; page++) {
+    const startIndex = page * pageSize;
+    const endIndex = startIndex + (page !== totalPages-1 ? pageSize : remainderRows);
+
+    const currentPageData = data.slice(startIndex, endIndex);
+    createPage(doc,currentPageData, columns, page + 1, totalPages, columnStyles);
+  }
+
+  doc.save(config.outputFileName);
 }
 
 
 const main = () => {
   const config = {
-    title: "This is title",
-    subtitle: "This is subtitle",
+    title: "Introductory Prelimnary Report of Depot",
+    subtitle: "Year 2012-2013, Includes staff status",
+    outputFileName: "report.pdf",
+    rowsPerPage: 30,
 
     tableConfig: [
     {
@@ -94,6 +118,384 @@ const main = () => {
   ]}
 
   const data = [
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
     {
       "column1": "Abhi",
       "column2": "mishraabhi0123@gmail.com",
