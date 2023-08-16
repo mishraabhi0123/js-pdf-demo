@@ -7,7 +7,7 @@ function createPage(doc, data, columns, pageNumber, totalPages, columnStyles) {
     columnStyles,
     startY: pageNumber == 1 ? 30 : 20,
     body: data,
-    theme: 'grid',
+    theme: 'striped',
     tableWidth: 'auto',
   });
 
@@ -63,7 +63,7 @@ function handlePdfGeneration(config, dataJson) {
   const totalRows = data.length;
   const pageSize = config.rowsPerPage;
   const totalPages = Math.ceil(totalRows / pageSize);
-  const remainderRows = totalPages % pageSize
+  const remainderRows = totalRows % pageSize
 
   for (let page = 0; page < totalPages; page++) {
     const startIndex = page * pageSize;
@@ -561,7 +561,31 @@ const main = () => {
     }
   ]
 
-  handlePdfGeneration(config, data);
+  const dataShort = [
+    {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek",
+      "column2": "abhi@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhishek Mishra",
+      "column2": "123@gmail.com",
+      "column3": "12232127688979124",
+      "column4": "Rohtas, Bihar",
+      "column5": "1265, jasj asghnka"
+    }
+  ]
+
+  handlePdfGeneration(config, dataShort);
 }
 
 
