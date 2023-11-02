@@ -32,6 +32,7 @@ const config = {
 
 `dataJson` should be in the below mentioned format 
 ```json
+[
     {   
       "column1": "asdkjh",
       "column2": "asd@asmad.com",
@@ -46,6 +47,7 @@ const config = {
       "column4": "bihar",
       "column5": "address"
     },
+]
 ```
 
 `column1`, `column2`  etc are the id of the column declared in the config above.
