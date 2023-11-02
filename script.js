@@ -21,13 +21,17 @@ function handlePdfGeneration(config, dataJson) {
   const columns = config.tableConfig.filter(c => c.visible == true).map(c => ({
     id: c.id, 
     title: c.title, 
-    align: c.align, 
+    align: c.align,
+    width: c.width || undefined 
   }));
 
   // Create a column specific styles
   const columnStyles = {}
   for (const i in columns) {
-    columnStyles[i]  =  { halign: columns[i].align }
+    columnStyles[i] = { 
+      halign: columns[i].align,
+      cellWidth: columns[i].width
+    }
   }
 
   let data = dataJson.map(d => {
@@ -38,7 +42,12 @@ function handlePdfGeneration(config, dataJson) {
     return trimmed_data;
   })
 
-  const doc = new jspdf.jsPDF();
+  let doc = null
+  if (config.orientation == "landscape") {
+    doc = new jspdf.jsPDF("landscape");
+  } else {
+    doc = new jspdf.jsPDF();
+  }
   
   doc.setFontSize(16);
   doc.setTextColor(0, 0, 0); // Black color
@@ -83,19 +92,21 @@ const main = () => {
     subtitle: "Year 2012-2013, Includes staff status",
     outputFileName: "report.pdf",
     rowsPerPage: 30,
+    orientation: "landscape",
 
     tableConfig: [
     {
       "id": "column1",
       "title": "Name",
       "visible": true,
-      "align": "left"
+      "align": "left",
+      "width": 80
     },
     {
       "id": "column2",
       "title": "Email",
       "visible": true,
-      "align": "right" 
+      "align": "right",
     },
     {
       "id": "column3",
@@ -107,13 +118,13 @@ const main = () => {
       "id": "column4",
       "title": "Place of birth",
       "visible": true,
-      "align": "center"
+      "align": "center",
     },
     {
       "id": "column5",
       "title": "Address",
       "visible": true,
-      "align": "left"
+      "align": "left",
     }
   ]}
 
