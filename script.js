@@ -1,7 +1,7 @@
 function createPage(doc, data, columns, pageNumber, totalPages, columnStyles) {
   doc.setFontSize(12); // Reset font size for page number
   doc.text(`${pageNumber} / ${totalPages}`, 185, 285); // Adjust position as needed
-  
+
   doc.autoTable({
     head: [columns],
     columnStyles,
@@ -19,16 +19,16 @@ function createPage(doc, data, columns, pageNumber, totalPages, columnStyles) {
 
 function handlePdfGeneration(config, dataJson) {
   const columns = config.tableConfig.filter(c => c.visible == true).map(c => ({
-    id: c.id, 
-    title: c.title, 
+    id: c.id,
+    title: c.title,
     align: c.align,
-    width: c.width || undefined 
+    width: c.width || undefined
   }));
 
   // Create a column specific styles
   const columnStyles = {}
   for (const i in columns) {
-    columnStyles[i] = { 
+    columnStyles[i] = {
       halign: columns[i].align,
       cellWidth: columns[i].width
     }
@@ -48,7 +48,7 @@ function handlePdfGeneration(config, dataJson) {
   } else {
     doc = new jspdf.jsPDF();
   }
-  
+
   doc.setFontSize(16);
   doc.setTextColor(0, 0, 0); // Black color
 
@@ -59,7 +59,7 @@ function handlePdfGeneration(config, dataJson) {
   const titleWidth = doc.getStringUnitWidth(title) * doc.internal.getFontSize() / doc.internal.scaleFactor;
   const pageWidth = doc.internal.pageSize.getWidth();
   const tx = (pageWidth - titleWidth) / 2;
-  
+
   // Add centered title
   doc.text(title, tx, 15);
 
@@ -76,10 +76,10 @@ function handlePdfGeneration(config, dataJson) {
 
   for (let page = 0; page < totalPages; page++) {
     const startIndex = page * pageSize;
-    const endIndex = startIndex + (page !== totalPages-1 ? pageSize : remainderRows);
+    const endIndex = startIndex + ((page !== totalPages - 1) ? pageSize : remainderRows ? remainderRows : pageSize);
 
     const currentPageData = data.slice(startIndex, endIndex);
-    createPage(doc,currentPageData, columns, page + 1, totalPages, columnStyles);
+    createPage(doc, currentPageData, columns, page + 1, totalPages, columnStyles);
   }
 
   doc.save(config.outputFileName);
@@ -91,42 +91,43 @@ const main = () => {
     title: "Introductory Prelimnary Report of Depot",
     subtitle: "Year 2012-2013, Includes staff status",
     outputFileName: "report.pdf",
-    rowsPerPage: 30,
+    rowsPerPage: 15,
     orientation: "landscape",
 
     tableConfig: [
-    {
-      "id": "column1",
-      "title": "Name",
-      "visible": true,
-      "align": "left",
-      "width": 80
-    },
-    {
-      "id": "column2",
-      "title": "Email",
-      "visible": true,
-      "align": "right",
-    },
-    {
-      "id": "column3",
-      "title": "Password",
-      "visible": true,
-      "align": "right",
-    },
-    {
-      "id": "column4",
-      "title": "Place of birth",
-      "visible": true,
-      "align": "center",
-    },
-    {
-      "id": "column5",
-      "title": "Address",
-      "visible": true,
-      "align": "left",
-    }
-  ]}
+      {
+        "id": "column1",
+        "title": "Name",
+        "visible": true,
+        "align": "left",
+        "width": 80
+      },
+      {
+        "id": "column2",
+        "title": "Email",
+        "visible": true,
+        "align": "right",
+      },
+      {
+        "id": "column3",
+        "title": "Password",
+        "visible": true,
+        "align": "right",
+      },
+      {
+        "id": "column4",
+        "title": "Place of birth",
+        "visible": true,
+        "align": "center",
+      },
+      {
+        "id": "column5",
+        "title": "Address",
+        "visible": true,
+        "align": "left",
+      }
+    ]
+  }
 
   const data = [
     {
@@ -200,6 +201,13 @@ const main = () => {
       "column5": "address"
     },
     {
+      "column1": "Abhi",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
       "column1": "Abhishek",
       "column2": "abhi@gmail.com",
       "column3": "password",
@@ -250,6 +258,13 @@ const main = () => {
     },
     {
       "column1": "Abhishek",
+      "column2": "mishraabhi0123@gmail.com",
+      "column3": "password",
+      "column4": "bihar",
+      "column5": "address"
+    },
+    {
+      "column1": "Abhi",
       "column2": "mishraabhi0123@gmail.com",
       "column3": "password",
       "column4": "bihar",
@@ -325,251 +340,6 @@ const main = () => {
       "column4": "bihar",
       "column5": "address"
     },
-    {
-      "column1": "Abhishek",
-      "column2": "abhi@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek Mishra",
-      "column2": "123@gmail.com",
-      "column3": "12232127688979124",
-      "column4": "Rohtas, Bihar",
-      "column5": "1265, jasj asghnka"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhi",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "abhi@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek Mishra",
-      "column2": "123@gmail.com",
-      "column3": "12232127688979124",
-      "column4": "Rohtas, Bihar",
-      "column5": "1265, jasj asghnka"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhi",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "abhi@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek Mishra",
-      "column2": "123@gmail.com",
-      "column3": "12232127688979124",
-      "column4": "Rohtas, Bihar",
-      "column5": "1265, jasj asghnka"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhi",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "abhi@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek Mishra",
-      "column2": "123@gmail.com",
-      "column3": "12232127688979124",
-      "column4": "Rohtas, Bihar",
-      "column5": "1265, jasj asghnka"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    },
-    {
-      "column1": "Abhishek",
-      "column2": "mishraabhi0123@gmail.com",
-      "column3": "password",
-      "column4": "bihar",
-      "column5": "address"
-    }
   ]
 
   const dataShort = [
@@ -596,7 +366,7 @@ const main = () => {
     }
   ]
 
-  handlePdfGeneration(config, dataShort);
+  handlePdfGeneration(config, data);
 }
 
 
