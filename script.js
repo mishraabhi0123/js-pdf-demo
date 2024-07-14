@@ -84,7 +84,7 @@ function handlePdfGeneration(config, dataJson) {
   // }
 
   createPage(doc, data, columns, columnStyles);
-  open(doc.output('bloburl', config.output), '_blank');
+  open(doc.output('bloburl'), '_blank');
 }
 
 
